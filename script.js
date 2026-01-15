@@ -1,40 +1,54 @@
+const stickyBar = document.querySelector('.sticky-bar');
 const toggleBtn = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');
+const closeBtn = document.querySelector('.nav-close');
+const overlay = document.querySelector('.nav-overlay');
 
-toggleBtn.addEventListener('click', () => {
-  const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-  toggleBtn.setAttribute('aria-expanded', !expanded);
-  navLinks.classList.toggle('show');
+function openMenu() {
+  stickyBar.classList.add('open');
+  navLinks.classList.add('show');
+  overlay.classList.add('show');
+  toggleBtn.setAttribute('aria-expanded', 'true');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMenu() {
+  stickyBar.classList.remove('open'); 
+  navLinks.classList.remove('show'); 
+  overlay.classList.remove('show');
+  toggleBtn.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+toggleBtn.addEventListener('click', openMenu);
+closeBtn.addEventListener('click', closeMenu);
+
+// Only close when clicking directly on the overlay (outside the panel)
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) closeMenu();
 });
-
-
+// --- Sticky Bar ---
 let lastScrollTop = 0;
-const stickyBar = document.querySelector('.sticky-bar');
 
 window.addEventListener('scroll', () => {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-  // Background toggle
   if (scrollTop === 0) {
-    stickyBar.classList.remove('scrolled'); // transparent at very top
+    stickyBar.classList.remove('scrolled');
   } else {
-    stickyBar.classList.add('scrolled');    // white when scrolled down
+    stickyBar.classList.add('scrolled');
   }
 
-  // Show/hide on scroll direction
   if (scrollTop > lastScrollTop) {
-    // scrolling down → hide
     stickyBar.classList.add('hidden');
   } else {
-    // scrolling up → show
     stickyBar.classList.remove('hidden');
   }
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
 
-
-// Open Today Dynamic Text
+// --- Open Today Dynamic Text ---
 document.addEventListener("DOMContentLoaded", function() {
   const openToday = document.getElementById("openToday");
   if (!openToday) return;
@@ -46,8 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
   openToday.textContent = `Open today – ${todayName}, 8:00 am – 7:00 pm`;
 });
 
-
-// Carousel Functionality
+// --- Carousel Functionality ---
 const carousel = document.querySelector('.carousel');
 const track = document.querySelector('.carousel-track');
 const slides = Array.from(document.querySelectorAll('.carousel-slide'));
@@ -67,15 +80,14 @@ lastClone.classList.add('clone');
 track.insertBefore(lastClone, track.firstChild);
 track.appendChild(firstClone);
 
-const allSlides = Array.from(track.children); // includes clones
-let currentIndex = 1; // start at first real slide
+const allSlides = Array.from(track.children);
+let currentIndex = 1;
 
 // --- Helper: calculate offset based on inner width + gap ---
 function getStepSize() {
   const cStyle = getComputedStyle(carousel);
   const tStyle = getComputedStyle(track);
 
-  // Read actual paddings (CSS uses %, computed style gives px)
   const paddingLeft = parseFloat(cStyle.paddingLeft) || 0;
   const paddingRight = parseFloat(cStyle.paddingRight) || 0;
 
@@ -92,32 +104,38 @@ function getStepSize() {
 function updateTransform(animate = true) {
   const step = getStepSize();
   const offset = -(currentIndex * step);
-  track.style.transition = animate ? 'transform 0.8s ease' : 'none'; // smoother speed
+  track.style.transition = animate ? 'transform 0.8s ease' : 'none';
   track.style.transform = `translateX(${offset}px)`;
 }
 
 // --- Highlight active slide (for dimming logic) ---
 function setActiveSlide(index) {
   allSlides.forEach((slide, i) => {
-    if (!slide.classList.contains('clone')) {
-      slide.classList.toggle('active', i === index);
-    }
+    slide.classList.toggle('active', i === index);
   });
 }
 
 // --- Normalize index after hitting clones ---
 function normalizeIndex() {
   if (allSlides[currentIndex].classList.contains('clone')) {
+    track.style.transition = 'none';
+
     if (currentIndex === 0) {
-      currentIndex = slideCount; // jump to last real
+      currentIndex = slideCount; // last real
     } else if (currentIndex === allSlides.length - 1) {
-      currentIndex = 1; // jump to first real
+      currentIndex = 1; // first real
     }
-    updateTransform(false); // jump without animation
+
+    updateTransform(false);
+    void track.offsetWidth; // force reflow
+    track.style.transition = 'transform 0.8s ease';
   }
+
+  // Update active states
+  setActiveSlide(currentIndex);
+
   const realIndex = currentIndex - 1;
   thumbs.forEach((t, i) => t.classList.toggle('active', i === realIndex));
-  setActiveSlide(currentIndex); // ensure dimming is correct
 }
 
 // --- Navigation ---
@@ -148,20 +166,42 @@ prevBtn.addEventListener('click', () => { prevSlide(); startAutoPlay(); });
 
 thumbs.forEach((thumb, i) => {
   thumb.addEventListener('click', () => {
-    currentIndex = i + 1; // offset by leading clone
+    currentIndex = i + 1; 
     setActiveSlide(currentIndex);
     updateTransform(true);
     startAutoPlay();
   });
 });
 
-track.addEventListener('transitionend', normalizeIndex);
+// ✅ Only normalize when the transform transition ends
+track.addEventListener('transitionend', (e) => {
+  if (e.propertyName === 'transform') {
+    normalizeIndex();
+  }
+});
+
 window.addEventListener('resize', () => updateTransform(false));
+
+// --- Refresh fix for black screen issue ---
+window.addEventListener("focus", () => {
+  updateTransform(false);
+  setActiveSlide(currentIndex);
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      updateTransform(false);
+      setActiveSlide(currentIndex);
+    }
+  });
+}, { threshold: 0.5 });
+
+observer.observe(carousel);
 
 // --- Init ---
 updateTransform(false);
 normalizeIndex();
 startAutoPlay();
-
 
 

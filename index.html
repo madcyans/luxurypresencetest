@@ -10,19 +10,32 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" >
 </head>
 <body> 
+  <!-- Header -->
   <header class="sticky-bar">
     <div class="logo">
-    <img src="images/marci-metzger-homes-logo.webp" alt="Marci Metzger Homes Logo">
+      <img src="images/marci-metzger-homes-logo.webp" alt="Marci Metzger Homes Logo">
     </div>
+
     <nav class="nav-links" id="nav-links">
-      <a href="https://marcimetzger.com/">HOME</a>
-      <a href="https://marcimetzger.com/listings">LISTINGS</a>
-      <a href="https://marcimetzger.com/lets-move">LET'S MOVE</a>
-      <a href="https://marcimetzger.com/about-us">ABOUT US</a>
+      <span class="nav-close" aria-label="Close menu">&times;</span>
+      <a href="/">HOME</a>
+      <a href="/listings">LISTINGS</a>
+      <a href="/lets-move">LET'S MOVE</a>
+      <a href="#about">ABOUT US</a>
     </nav>
+
     <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links">☰ MENU</button>
   </header>
 
+<div class="nav-overlay"></div>
+
+
+
+
+
+
+
+  <!-- Hero Section -->
   <section class="hero">
       <div class="hero-text container"> 
           <h2 class="subtitle">MARCI METZGER – THE RIDGE REALTY GROUP</h2> 
@@ -31,6 +44,7 @@
       </div> 
   </section>
 
+  <!-- About Section -->
   <section class="about-agent">
     <div class="container about-layout">
       <div class="agent-info">
@@ -45,7 +59,6 @@
       </div>
     </div>
   </section>
-
 
   <!-- Logo Section -->
   <section class="logo-section">
@@ -65,13 +78,12 @@
     </div>
   </section>
 
-
+  <!-- Services Section -->
   <section class="services-section">
     <div class="container">
       <h2 class="services-title">GET IT SOLD</h2>
-
       <div class="services-timeline">
-        <!-- Item 1 (left content, right image) -->
+
         <div class="timeline-item left">
           <div class="timeline-content">
             <h3>Top Residential Sales Last 5 Years</h3>
@@ -86,8 +98,7 @@
               alt="Sales placeholder">
           </div>
         </div>
-
-        <!-- Item 2 (right content, left image) -->
+        
         <div class="timeline-item right">
           <div class="timeline-image">
             <img 
@@ -102,7 +113,6 @@
           </div>
         </div>
 
-        <!-- Item 3 (left content, right image) -->
         <div class="timeline-item left">
           <div class="timeline-content">
             <h3>Guide to Buyers</h3>
@@ -116,10 +126,12 @@
               alt="Buyers placeholder">
           </div>
         </div>
+
       </div>
     </div>
   </section>
 
+  <!-- Search Section -->
   <section class="search-section">
     <div class="container">
       <h2 class="outer-title">Find Your Dream Home</h2>
@@ -127,8 +139,6 @@
       <div class="search-box">
         <h3 class="inner-title">Search Listings</h3>
         <form class="search-form">
-
-          <!-- Row 1 -->
           <div class="form-row">
             <div class="form-group">
               <label for="location">Location</label>
@@ -161,9 +171,7 @@
             </div>
           </div>
 
-          <!-- Row 2 -->
           <div class="form-row">
-            <!-- Section 1: Bedrooms + Baths -->
             <div class="form-group horizontal">
               <div>
                 <label for="bedrooms">Bedrooms</label>
@@ -192,7 +200,6 @@
               </div>
             </div>
 
-            <!-- Section 2: Min + Max Price -->
             <div class="form-group horizontal">
               <div>
                 <label for="min-price">Min Price</label>
@@ -204,52 +211,118 @@
               </div>
             </div>
 
-            <!-- Section 3: Search Button -->
             <div class="form-group button-group">
               <button type="submit" class="search-btn" disabled>SEARCH NOW</button>
             </div>
-          </div>
 
+          </div>
         </form>
       </div>
     </div>
   </section>
 
+  <!-- Photo Gallery Section -->
   <section class="photo-gallery">
     <div class="container">
       <h2 class="gallery-title">Photo Gallery</h2>
-
-      <!-- Carousel wrapper -->
       <div class="carousel">
         <div class="carousel-track">
           <div class="carousel-slide active">
-            <img src="images/gallery/gallery-1.webp" alt="Gallery 1">
+            <img 
+              src="images/gallery/gallery-1023-1.webp" 
+              srcset="
+                images/gallery/gallery-403-1.webp 403w,
+                images/gallery/gallery-719-1.webp 719w,
+                images/gallery/gallery-806-1.webp 806w,
+                images/gallery/gallery-1023-1.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 1">
+          </div>   
+          <div class="carousel-slide">
+            <img 
+              src="images/gallery/gallery-1023-2.webp" 
+              srcset="
+                images/gallery/gallery-403-2.webp 403w,
+                images/gallery/gallery-719-2.webp 719w,
+                images/gallery/gallery-806-2.webp 806w,
+                images/gallery/gallery-1023-2.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 2">
           </div>
           <div class="carousel-slide">
-            <img src="images/gallery/gallery-2.webp" alt="Gallery 2">
+            <img 
+              src="images/gallery/gallery-1023-3.webp" 
+              srcset="
+                images/gallery/gallery-403-3.webp 403w,
+                images/gallery/gallery-719-3.webp 719w,
+                images/gallery/gallery-806-3.webp 806w,
+                images/gallery/gallery-1023-3.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 3">
           </div>
           <div class="carousel-slide">
-            <img src="images/gallery/gallery-3.webp" alt="Gallery 3">
+            <img 
+              src="images/gallery/gallery-1023-4.webp" 
+              srcset="
+                images/gallery/gallery-403-4.webp 403w,
+                images/gallery/gallery-719-4.webp 719w,
+                images/gallery/gallery-806-4.webp 806w,
+                images/gallery/gallery-1023-4.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 4">
           </div>
           <div class="carousel-slide">
-            <img src="images/gallery/gallery-4.webp" alt="Gallery 4">
+            <img 
+              src="images/gallery/gallery-1023-5.webp" 
+              srcset="
+                images/gallery/gallery-403-5.webp 403w,
+                images/gallery/gallery-719-5.webp 719w,
+                images/gallery/gallery-806-5.webp 806w,
+                images/gallery/gallery-1023-5.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 5">
           </div>
           <div class="carousel-slide">
-            <img src="images/gallery/gallery-5.webp" alt="Gallery 5">
+            <img 
+              src="images/gallery/gallery-1023-6.webp" 
+              srcset="
+                images/gallery/gallery-403-6.webp 403w,
+                images/gallery/gallery-719-6.webp 719w,
+                images/gallery/gallery-806-6.webp 806w,
+                images/gallery/gallery-1023-6.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 6">
           </div>
           <div class="carousel-slide">
-            <img src="images/gallery/gallery-6.webp" alt="Gallery 6">
+            <img 
+              src="images/gallery/gallery-1023-7.webp" 
+              srcset="
+                images/gallery/gallery-403-7.webp 403w,
+                images/gallery/gallery-719-7.webp 719w,
+                images/gallery/gallery-806-7.webp 806w,
+                images/gallery/gallery-1023-7.webp 1023w
+              "
+              sizes="
+                (max-width: 480px) 100vw,(max-width: 767px) 100vw, (max-width: 1023px) 100vw, 1023px"
+              alt="Gallery 7">
           </div>
-          <div class="carousel-slide">
-            <img src="images/gallery/gallery-7.webp" alt="Gallery 7">
-          </div>
-        </div> <!-- ✅ close track here -->
+        </div>
 
-        <!-- Arrows belong directly inside .carousel -->
         <button class="carousel-prev">&#10094;</button>
         <button class="carousel-next">&#10095;</button>
       </div>
-
 
       <!-- Thumbnails -->
       <div class="carousel-thumbs">
@@ -264,13 +337,10 @@
     </div>
   </section>
 
-
-
-
+  <!-- Offerings Section -->
   <section class="offerings-section">
     <div class="container">
       <h2 class="offerings-title">Our Services</h2>
-
       <div class="offerings-layout">
         <div class="offering-item">
           <img src="images/offerings/offering-1.webp" alt="Real Estate" class="offering-image">
@@ -293,13 +363,13 @@
     </div>
   </section>
 
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
       <h2 class="footer-title">Call or Visit</h2>
       <div class="footer-layout">
 
-        <!-- Left side: Map -->
         <div class="footer-map">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3307.497727567782!2d-116.002!3d36.208!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c8d4f0f0f0f0f%3A0x123456789abcdef!2s3190%20NV-160%20Suite%20F%2C%20Pahrump%2C%20NV%2089048%2C%20USA!5e0!3m2!1sen!2sus!4v1700000000000"
@@ -312,7 +382,6 @@
           </iframe>
         </div>
 
-        <!-- Middle: Info -->
         <div class="footer-info">
           <p><strong>Marci Metzger - THE RIDGE REALTY GROUP</strong></p>
           <p>3190 HW-160, Suite F, Pahrump, Nevada 89048, United States</p>
@@ -326,7 +395,6 @@
           </div>
         </div>
 
-        <!-- Right: Buttons + Social -->
         <div class="footer-right"> 
           <div class="footer-buttons">
             <button class="btn contact-btn" onclick="document.getElementById('contactModal').style.display='block'">Contact Us</button>  
@@ -350,6 +418,7 @@
         </div>
       </div>
     </div>
+
     <!-- Bottom Bar -->
     <div class="footer-bottom">
         <p>Copyright © 2023 Marci METZGER Homes - All Rights Reserved</p>
@@ -360,30 +429,30 @@
     </div>
   </footer>
 
-    <!-- Contact Modal -->
-    <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('contactModal').style.display='none'">&times;</span>
-            <h3>Send Message</h3>
-            <form>
-            <label>Name</label>
-            <input type="text" name="name" required>
+  <!-- Contact Modal -->
+  <div id="contactModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="document.getElementById('contactModal').style.display='none'">&times;</span>
+        <h3>Send Message</h3>
+        <form>
+        <label>Name</label>
+        <input type="text" name="name" required>
 
-            <label>Email*</label>
-            <input type="email" name="email" required>
-            <small>Please enter a valid email address.</small>
+        <label>Email*</label>
+        <input type="email" name="email" required>
+        <small>Please enter a valid email address.</small>
 
-            <label>Message</label>
-            <textarea name="message" required></textarea>
+        <label>Message</label>
+        <textarea name="message" required></textarea>
 
-            <button type="submit" class="btn">Send</button>
-            <p class="recaptcha-note">
-                This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
-            </p>
-            </form>
-        </div>
+        <button type="submit" class="btn">Send</button>
+        <p class="recaptcha-note">
+            This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+        </p>
+        </form>
     </div>
+  </div>
 
-    <script src="script.js"></script>
+  <script src="script.js"></script>
 </body> 
 </html>
