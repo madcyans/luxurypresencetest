@@ -2,12 +2,6 @@
 const toggleBtn = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');
 
-toggleBtn.addEventListener('click', () => {
-  const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
-  toggleBtn.setAttribute('aria-expanded', !expanded);
-  navLinks.classList.toggle('show');
-});
-
 // --- Sticky Bar ---
 let lastScrollTop = 0;
 const stickyBar = document.querySelector('.sticky-bar');
@@ -31,6 +25,40 @@ window.addEventListener('scroll', () => {
 
   lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+  const navOverlay = document.querySelector('.nav-overlay');
+
+  if (!toggleBtn || !navLinks || !navOverlay) return;
+
+  const openMenu = () => {
+    navLinks.classList.add('show');
+    navOverlay.classList.add('show');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeMenu = () => {
+    navLinks.classList.remove('show');
+    navOverlay.classList.remove('show');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
+  // Single unified click handler for toggle button
+  toggleBtn.addEventListener('click', () => {
+    const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+    if (expanded) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  // Overlay click closes menu
+  navOverlay.addEventListener('click', closeMenu);
+});
+
 
 // --- Open Today Dynamic Text ---
 document.addEventListener("DOMContentLoaded", function() {
