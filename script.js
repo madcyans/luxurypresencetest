@@ -95,25 +95,31 @@ function updateTransform(animate = true) {
 // --- Highlight active slide (for dimming logic) ---
 function setActiveSlide(index) {
   allSlides.forEach((slide, i) => {
-    if (!slide.classList.contains('clone')) {
-      slide.classList.toggle('active', i === index);
-    }
+    slide.classList.toggle('active', i === index);
   });
 }
 
 // --- Normalize index after hitting clones ---
 function normalizeIndex() {
   if (allSlides[currentIndex].classList.contains('clone')) {
+    track.style.transition = 'none';
+
     if (currentIndex === 0) {
-      currentIndex = slideCount;
+      currentIndex = slideCount; // last real
     } else if (currentIndex === allSlides.length - 1) {
-      currentIndex = 1;
+      currentIndex = 1; // first real
     }
-    updateTransform(false); 
+
+    updateTransform(false);
+    void track.offsetWidth; // force reflow
+    track.style.transition = 'transform 0.8s ease';
   }
+
+  // Update active states
+  setActiveSlide(currentIndex);
+
   const realIndex = currentIndex - 1;
   thumbs.forEach((t, i) => t.classList.toggle('active', i === realIndex));
-  setActiveSlide(currentIndex);
 }
 
 // --- Navigation ---
@@ -151,17 +157,21 @@ thumbs.forEach((thumb, i) => {
   });
 });
 
-track.addEventListener('transitionend', normalizeIndex);
+// ✅ Only normalize when the transform transition ends
+track.addEventListener('transitionend', (e) => {
+  if (e.propertyName === 'transform') {
+    normalizeIndex();
+  }
+});
+
 window.addEventListener('resize', () => updateTransform(false));
 
 // --- Refresh fix for black screen issue ---
-// Force repaint when page regains focus
 window.addEventListener("focus", () => {
   updateTransform(false);
   setActiveSlide(currentIndex);
 });
 
-// Force repaint when carousel comes back into view
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
