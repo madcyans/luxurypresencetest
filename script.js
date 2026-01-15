@@ -1,44 +1,28 @@
-const stickyBar = document.querySelector('.sticky-bar');
+// --- Nav Toggle ---
 const toggleBtn = document.querySelector('.nav-toggle');
 const navLinks = document.getElementById('nav-links');
-const closeBtn = document.querySelector('.nav-close');
-const overlay = document.querySelector('.nav-overlay');
 
-function openMenu() {
-  stickyBar.classList.add('open');
-  navLinks.classList.add('show');
-  overlay.classList.add('show');
-  toggleBtn.setAttribute('aria-expanded', 'true');
-  document.body.style.overflow = 'hidden';
-}
-
-function closeMenu() {
-  stickyBar.classList.remove('open'); 
-  navLinks.classList.remove('show'); 
-  overlay.classList.remove('show');
-  toggleBtn.setAttribute('aria-expanded', 'false');
-  document.body.style.overflow = '';
-}
-
-toggleBtn.addEventListener('click', openMenu);
-closeBtn.addEventListener('click', closeMenu);
-
-// Only close when clicking directly on the overlay (outside the panel)
-overlay.addEventListener('click', (e) => {
-  if (e.target === overlay) closeMenu();
+toggleBtn.addEventListener('click', () => {
+  const expanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+  toggleBtn.setAttribute('aria-expanded', !expanded);
+  navLinks.classList.toggle('show');
 });
+
 // --- Sticky Bar ---
 let lastScrollTop = 0;
+const stickyBar = document.querySelector('.sticky-bar');
 
 window.addEventListener('scroll', () => {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
+  // Background toggle
   if (scrollTop === 0) {
     stickyBar.classList.remove('scrolled');
   } else {
     stickyBar.classList.add('scrolled');
   }
 
+  // Show/hide on scroll direction
   if (scrollTop > lastScrollTop) {
     stickyBar.classList.add('hidden');
   } else {
@@ -111,31 +95,25 @@ function updateTransform(animate = true) {
 // --- Highlight active slide (for dimming logic) ---
 function setActiveSlide(index) {
   allSlides.forEach((slide, i) => {
-    slide.classList.toggle('active', i === index);
+    if (!slide.classList.contains('clone')) {
+      slide.classList.toggle('active', i === index);
+    }
   });
 }
 
 // --- Normalize index after hitting clones ---
 function normalizeIndex() {
   if (allSlides[currentIndex].classList.contains('clone')) {
-    track.style.transition = 'none';
-
     if (currentIndex === 0) {
-      currentIndex = slideCount; // last real
+      currentIndex = slideCount;
     } else if (currentIndex === allSlides.length - 1) {
-      currentIndex = 1; // first real
+      currentIndex = 1;
     }
-
-    updateTransform(false);
-    void track.offsetWidth; // force reflow
-    track.style.transition = 'transform 0.8s ease';
+    updateTransform(false); 
   }
-
-  // Update active states
-  setActiveSlide(currentIndex);
-
   const realIndex = currentIndex - 1;
   thumbs.forEach((t, i) => t.classList.toggle('active', i === realIndex));
+  setActiveSlide(currentIndex);
 }
 
 // --- Navigation ---
@@ -173,21 +151,17 @@ thumbs.forEach((thumb, i) => {
   });
 });
 
-// ✅ Only normalize when the transform transition ends
-track.addEventListener('transitionend', (e) => {
-  if (e.propertyName === 'transform') {
-    normalizeIndex();
-  }
-});
-
+track.addEventListener('transitionend', normalizeIndex);
 window.addEventListener('resize', () => updateTransform(false));
 
 // --- Refresh fix for black screen issue ---
+// Force repaint when page regains focus
 window.addEventListener("focus", () => {
   updateTransform(false);
   setActiveSlide(currentIndex);
 });
 
+// Force repaint when carousel comes back into view
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -203,5 +177,6 @@ observer.observe(carousel);
 updateTransform(false);
 normalizeIndex();
 startAutoPlay();
+
 
 
