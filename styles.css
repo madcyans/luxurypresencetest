@@ -794,21 +794,14 @@ body {
   color: #555;
 }
 
-/* responsive layout for ≤430px */
-@media (max-width: 430px) {
-  .about-layout { 
-    flex-direction: column; 
-    text-align: center; 
-  } 
-  .agent-info { 
-    text-align: center; 
-  } 
+/* Responsive layout for ≤780px (general mobile + tablet) */
+@media (max-width: 780px) {
+  /* About section */
+  .about-layout { flex-direction: column; text-align: center; }
+  .agent-info { text-align: center; }
 
-  .timeline-item { 
-    grid-template-columns: 1fr; 
-    gap: 20px; 
-    margin-bottom: 40px; /* tighter spacing for small screens */
-  }
+  /* Timeline */
+  .timeline-item { grid-template-columns: 1fr; gap: 20px; margin-bottom: 60px; }
   .timeline-item.right .timeline-content,
   .timeline-item.right .timeline-image,
   .timeline-item.left .timeline-content,
@@ -817,63 +810,60 @@ body {
     padding: 0;
     text-align: left;
   }
-
   .services-timeline::before,
-  .timeline-item::after { 
-    display: none; 
-  }
+  .timeline-item::after { display: none; }
+  .timeline-image img { max-width: 100%; }
 
-  .timeline-image img {
-    max-width: 100%;
-    height: auto;
-  }
-
+  /* Search section background */
   .search-section { 
-    background: 
-      linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
+      url("images/listing-bg/listing-background-767.webp") no-repeat center/cover; 
+  }
+
+  /* Search form */
+  .form-row { grid-template-columns: 1fr; }
+  .form-group.horizontal { grid-template-columns: 1fr; }
+  .button-group { justify-content: center; }
+
+  /* Offerings */
+  .offerings-layout { grid-template-columns: 1fr; gap: 40px; }
+
+  /* Footer */
+  .footer-layout { grid-template-columns: 1fr; gap: 30px; text-align: center; }
+  .footer-right { align-items: center; }
+  .footer-buttons { flex-direction: column; }
+  .footer-bottom { flex-direction: column; text-align: center; gap: 10px; }
+}
+
+/* Extra tweaks for ≤430px (very small phones) */
+@media (max-width: 430px) {
+  /* Timeline tighter spacing */
+  .timeline-item { margin-bottom: 40px; }
+
+  /* Search section background for small phones */
+  .search-section { 
+    background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.2)), 
       url("images/listing-bg/listing-background-430.webp") no-repeat center/cover; 
   }
 
-  .form-row,
-  .form-group.horizontal { 
-    grid-template-columns: 1fr; 
-  } 
-  .button-group { 
-    justify-content: center; 
-  }
+  /* Search box padding shrink */
+  .search-box { padding: 20px; }
+  .search-btn { width: 100%; max-width: 280px; }
 
-  .offerings-layout {
-    grid-template-columns: 1fr;
-    gap: 30px;
-  }
+  /* Offerings tighter gap */
+  .offerings-layout { gap: 30px; }
 
-  .footer-layout { 
-    grid-template-columns: 1fr;
-    gap: 20px; 
-    text-align: center; 
-  }
-  .footer-right {
-    align-items: center;
-  }
-  .footer-buttons { 
-    flex-direction: column;
-    gap: 10px;
-  }
-  .footer-bottom {
-    flex-direction: column;
-    text-align: center;
-    gap: 10px;
-  }
-}
+  /* Footer tighter gap */
+  .footer-layout { gap: 20px; }
+  .footer-buttons { gap: 10px; }
 
-/* Mobile nav panel */
-@media (max-width: 430px) {
+  /* Mobile nav panel */
   .sticky-bar .nav-links {
     position: fixed;
     top: 0;
-    right: -280px;          /* hidden initially */
+    right: -280px;
     height: 100vh;
-    width: 150px;           /* side panel width */
+    width: 280px; /* wide enough for text */
     background: rgba(0,0,0,0.95);
     display: flex;
     flex-direction: column;
@@ -884,9 +874,7 @@ body {
     overflow-y: auto;
     box-sizing: border-box;
   }
-  .sticky-bar .nav-links.show {
-    right: 0;               /* slides in */
-  }
+  .sticky-bar .nav-links.show { right: 0; }
 
   .nav-overlay {
     position: fixed;
@@ -895,10 +883,14 @@ body {
     z-index: 1000;
     display: none;
   }
-  .nav-overlay.show {
-    display: block;
-  }
+  .nav-overlay.show { display: block; }
+
+  /* Safeguard: prevent horizontal scroll */
+  body { overflow-x: hidden; }
 }
+
+
+
 
 
 
